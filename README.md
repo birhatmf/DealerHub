@@ -1,6 +1,10 @@
 # DealerHub (Dealer Management System)
 
-A modern and comprehensive B2B Dealer Management System built with Next.js 16, Prisma, and Tailwind CSS.
+DealerHub is a modern B2B Dealer Management System designed to streamline operations between a central distributor (Admin) and its network of dealers (Stores). Built with the latest web technologies, it provides a seamless experience for managing products, orders, and financial tracking.
+
+**Key Capabilities:**
+*   **For Admins:** Centralized control over all stores, products, and global reporting.
+*   **For Dealers:** A dedicated portal to place orders, track stock, and manage their own customers.
 
 ![Dashboard Preview](https://via.placeholder.com/800x400?text=DealerHub+Dashboard)
 
