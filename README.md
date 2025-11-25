@@ -1,100 +1,100 @@
-# Bayi App (Dealer Management System)
+# DealerHub (Dealer Management System)
 
-Modern ve kapsamlı bir Bayi Yönetim Sistemi. Next.js 16, Prisma ve Tailwind CSS kullanılarak geliştirilmiştir.
+A modern and comprehensive B2B Dealer Management System built with Next.js 16, Prisma, and Tailwind CSS.
 
-![Dashboard Preview](https://via.placeholder.com/800x400?text=Bayi+App+Dashboard)
+![Dashboard Preview](https://via.placeholder.com/800x400?text=DealerHub+Dashboard)
 
-## 🚀 Özellikler
+## 🚀 Features
 
-###  Admin Paneli (ROOT)
-*   **Dashboard:** Toplam satış, tahsilat, bekleyen ödeme ve sipariş durumlarını grafiksel olarak görüntüleme.
-*   **Mağaza Yönetimi:** Yeni mağaza oluşturma, düzenleme ve silme.
-*   **Ürün Yönetimi:** Tüm mağazaların ürünlerini görüntüleme ve yönetme.
-*   **Sipariş Yönetimi:** Tüm siparişleri görüntüleme, durum güncelleme ve detaylı inceleme.
-*   **Müşteri Yönetimi:** Tüm müşterileri listeleme.
-*   **Yönetici Yönetimi:** Yeni admin kullanıcıları oluşturma ve yetkilendirme.
+### 👑 Admin Panel (ROOT)
+*   **Dashboard:** Visualize total sales, collections, pending payments, and order statuses graphically.
+*   **Store Management:** Create, edit, and delete stores.
+*   **Product Management:** View and manage products across all stores.
+*   **Order Management:** View all orders, update statuses, and inspect details.
+*   **Customer Management:** List all customers.
+*   **Admin Management:** Create and authorize new admin users.
 
-###  Mağaza Paneli (STORE)
-*   **Dashboard:** Mağazaya özel satış istatistikleri ve özet raporlar.
-*   **Ürün Yönetimi:** Stok takibi, fiyat yönetimi ve ürün ekleme/düzenleme.
-*   **Sipariş Oluşturma:** Müşteriler için hızlı sipariş oluşturma (Sepet mantığı).
-*   **Sipariş Takibi:** Sipariş durumlarını güncelleme (Hazırlanıyor, Kargoda vb.).
-*   **Müşteri Yönetimi:** Müşteri veritabanı oluşturma ve yönetme.
-*   **Ayarlar:** Satış sözleşmesi, varsayılan notlar ve banka/IBAN bilgilerini özelleştirme.
-*   **Yazdırma:** Sipariş detaylarını ve sözleşmeleri yazdırma özelliği.
+### 🏪 Store Panel (STORE)
+*   **Dashboard:** Store-specific sales statistics and summary reports.
+*   **Product Management:** Track stock, manage prices, and add/edit products.
+*   **Order Creation:** Fast order creation for customers (Cart system).
+*   **Order Tracking:** Update order statuses (Preparing, Shipped, etc.).
+*   **Customer Management:** Create and manage a customer database.
+*   **Settings:** Customize sales contracts, default notes, and bank/IBAN information.
+*   **Printing:** Print order details and contracts.
 
-##  Teknolojiler
+## 🛠 Tech Stack
 
 *   **Framework:** [Next.js 16](https://nextjs.org/) (App Router)
-*   **Dil:** [TypeScript](https://www.typescriptlang.org/)
-*   **Veritabanı:** [SQLite](https://www.sqlite.org/) (Prisma ORM ile)
-*   **Kimlik Doğrulama:** [NextAuth.js v5](https://authjs.dev/) (Beta)
-*   **Stil:** [Tailwind CSS](https://tailwindcss.com/)
-*   **UI Bileşenleri:** [shadcn/ui](https://ui.shadcn.com/) & [Radix UI](https://www.radix-ui.com/)
-*   **Form Yönetimi:** React Hook Form & Zod
+*   **Language:** [TypeScript](https://www.typescriptlang.org/)
+*   **Database:** [SQLite](https://www.sqlite.org/) (with Prisma ORM)
+*   **Authentication:** [NextAuth.js v5](https://authjs.dev/) (Beta)
+*   **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+*   **UI Components:** [shadcn/ui](https://ui.shadcn.com/) & [Radix UI](https://www.radix-ui.com/)
+*   **Form Management:** React Hook Form & Zod
 
-##  Kurulum
+## 📦 Installation
 
-Projeyi yerel ortamınızda çalıştırmak için aşağıdaki adımları izleyin:
+Follow these steps to run the project locally:
 
-1.  **Projeyi Klonlayın:**
+1.  **Clone the Project:**
     ```bash
-    git clone https://github.com/kullaniciadi/bayi-app.git
+    git clone https://github.com/birhatmf/DealerHub.git
     cd bayi-app
     ```
 
-2.  **Bağımlılıkları Yükleyin:**
+2.  **Install Dependencies:**
     ```bash
     npm install
     ```
 
-3.  **Çevresel Değişkenleri Ayarlayın:**
-    `.env` dosyasını oluşturun ve aşağıdaki değerleri ekleyin:
+3.  **Set Up Environment Variables:**
+    Create a `.env` file and add the following values:
     ```env
     DATABASE_URL="file:./dev.db"
-    AUTH_SECRET="gizli-anahtariniz-buraya" # `npx auth secret` ile oluşturabilirsiniz
+    AUTH_SECRET="your-secret-key-here" # Generate with `npx auth secret`
     ```
 
-4.  **Veritabanını Hazırlayın:**
+4.  **Prepare the Database:**
     ```bash
     npx prisma db push
     ```
 
-5.  **Admin Kullanıcısını Oluşturun:**
+5.  **Create Admin User:**
     ```bash
     npx tsx prisma/seed.ts
     ```
-    *Varsayılan Admin:* `admin` / `admin123`
+    *Default Admin:* `admin` / `admin123`
 
-6.  **Uygulamayı Başlatın:**
+6.  **Start the Application:**
     ```bash
     npm run dev
     ```
-    Tarayıcınızda `http://localhost:3000` adresine gidin.
+    Go to `http://localhost:3000` in your browser.
 
-##  Kullanım
+## 🔑 Usage
 
-### Varsayılan Giriş Bilgileri
-*   **Kullanıcı Adı:** `admin`
-*   **Şifre:** `admin123`
+### Default Login Credentials
+*   **Username:** `admin`
+*   **Password:** `admin123`
 
-Giriş yaptıktan sonra Admin panelinden yeni mağazalar oluşturabilir ve bu mağazalar için kullanıcı adı/şifre belirleyebilirsiniz.
+After logging in, you can create new stores from the Admin panel and set usernames/passwords for them.
 
-##  Proje Yapısı
+## 📂 Project Structure
 
 ```
 bayi-app/
 ├── app/
-│   ├── (admin)/      # Admin paneli sayfaları
-│   ├── (store)/      # Mağaza paneli sayfaları
-│   ├── actions/      # Server Actions (Veritabanı işlemleri)
-│   └── api/          # API rotaları (Auth vb.)
-├── components/       # Tekrar kullanılabilir UI bileşenleri
-├── lib/              # Yardımcı fonksiyonlar ve Prisma istemcisi
-├── prisma/           # Veritabanı şeması ve seed dosyaları
-└── public/           # Statik dosyalar
+│   ├── (admin)/      # Admin panel pages
+│   ├── (store)/      # Store panel pages
+│   ├── actions/      # Server Actions (Database operations)
+│   └── api/          # API routes (Auth, etc.)
+├── components/       # Reusable UI components
+├── lib/              # Utility functions and Prisma client
+├── prisma/           # Database schema and seed files
+└── public/           # Static files
 ```
 
-##  Lisans
+## 📄 License
 
-Bu proje [MIT](LICENSE) lisansı ile lisanslanmıştır.
+This project is licensed under the [MIT](LICENSE) license.
