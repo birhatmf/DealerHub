@@ -4,9 +4,9 @@ A modern and comprehensive B2B Dealer Management System built with Next.js 16, P
 
 ![Dashboard Preview](https://via.placeholder.com/800x400?text=DealerHub+Dashboard)
 
-## 🚀 Features
+##  Features
 
-### 👑 Admin Panel (ROOT)
+###  Admin Panel (ROOT)
 *   **Dashboard:** Visualize total sales, collections, pending payments, and order statuses graphically.
 *   **Store Management:** Create, edit, and delete stores.
 *   **Product Management:** View and manage products across all stores.
@@ -14,7 +14,7 @@ A modern and comprehensive B2B Dealer Management System built with Next.js 16, P
 *   **Customer Management:** List all customers.
 *   **Admin Management:** Create and authorize new admin users.
 
-### 🏪 Store Panel (STORE)
+###  Store Panel (STORE)
 *   **Dashboard:** Store-specific sales statistics and summary reports.
 *   **Product Management:** Track stock, manage prices, and add/edit products.
 *   **Order Creation:** Fast order creation for customers (Cart system).
@@ -33,7 +33,7 @@ A modern and comprehensive B2B Dealer Management System built with Next.js 16, P
 *   **UI Components:** [shadcn/ui](https://ui.shadcn.com/) & [Radix UI](https://www.radix-ui.com/)
 *   **Form Management:** React Hook Form & Zod
 
-## 📦 Installation
+##  Installation
 
 Follow these steps to run the project locally:
 
@@ -72,7 +72,7 @@ Follow these steps to run the project locally:
     ```
     Go to `http://localhost:3000` in your browser.
 
-## 🔑 Usage
+##  Usage
 
 ### Default Login Credentials
 *   **Username:** `admin`
@@ -80,7 +80,7 @@ Follow these steps to run the project locally:
 
 After logging in, you can create new stores from the Admin panel and set usernames/passwords for them.
 
-## 📂 Project Structure
+##  Project Structure
 
 ```
 bayi-app/
@@ -95,6 +95,6 @@ bayi-app/
 └── public/           # Static files
 ```
 
-## 📄 License
+##  License
 
 This project is licensed under the [MIT](LICENSE) license.
