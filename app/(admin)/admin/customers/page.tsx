@@ -12,6 +12,8 @@ import { redirect } from "next/navigation"
 import { StoreFilter } from "@/components/store-filter"
 import { CustomerActions } from "@/components/customer-actions"
 
+import { Trans } from "@/components/ui/trans"
+
 export default async function AdminCustomersPage({
     searchParams,
 }: {
@@ -41,10 +43,15 @@ export default async function AdminCustomersPage({
         orderBy: { name: "asc" },
     })
 
+
+    // ... (imports)
+
+    // ... (inside component)
+
     return (
         <div className="space-y-6">
             <div className="flex items-center justify-between">
-                <h1 className="text-3xl font-bold">Tüm Müşteriler</h1>
+                <h1 className="text-3xl font-bold"><Trans k="customers.title" /></h1>
                 <StoreFilter stores={stores} />
             </div>
 
@@ -52,12 +59,12 @@ export default async function AdminCustomersPage({
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHead>Müşteri Adı</TableHead>
-                            <TableHead>Mağaza</TableHead>
-                            <TableHead>Telefon</TableHead>
-                            <TableHead>Email</TableHead>
-                            <TableHead>Şehir/Adres</TableHead>
-                            <TableHead className="text-right">İşlemler</TableHead>
+                            <TableHead><Trans k="customers.name" /></TableHead>
+                            <TableHead><Trans k="common.store" /></TableHead>
+                            <TableHead><Trans k="customers.phone" /></TableHead>
+                            <TableHead><Trans k="customers.email" /></TableHead>
+                            <TableHead><Trans k="customers.cityAddress" /></TableHead>
+                            <TableHead className="text-right"><Trans k="common.actions" /></TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -77,8 +84,8 @@ export default async function AdminCustomersPage({
                         ))}
                         {customers.length === 0 && (
                             <TableRow>
-                                <TableCell colSpan={5} className="text-center">
-                                    Henüz müşteri bulunmuyor.
+                                <TableCell colSpan={6} className="text-center">
+                                    <Trans k="customers.noCustomers" />
                                 </TableCell>
                             </TableRow>
                         )}

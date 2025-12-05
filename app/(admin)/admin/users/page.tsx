@@ -15,6 +15,8 @@ import { Trash } from "lucide-react"
 import { deleteUser } from "@/app/actions/user"
 import { formatDate } from "@/lib/utils"
 
+import { Trans } from "@/components/ui/trans"
+
 export default async function AdminUsersPage() {
     const session = await auth()
     if (!session || session.user.role !== "ROOT") {
@@ -26,10 +28,15 @@ export default async function AdminUsersPage() {
         orderBy: { createdAt: "desc" },
     })
 
+
+    // ... (imports)
+
+    // ... (inside component)
+
     return (
         <div className="space-y-6">
             <div className="flex items-center justify-between">
-                <h1 className="text-3xl font-bold">Yöneticiler</h1>
+                <h1 className="text-3xl font-bold"><Trans k="users.title" /></h1>
                 <AdminForm />
             </div>
 
@@ -37,9 +44,9 @@ export default async function AdminUsersPage() {
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHead>Kullanıcı Adı</TableHead>
-                            <TableHead>Oluşturulma Tarihi</TableHead>
-                            <TableHead className="text-right">İşlemler</TableHead>
+                            <TableHead><Trans k="users.username" /></TableHead>
+                            <TableHead><Trans k="users.createdAt" /></TableHead>
+                            <TableHead className="text-right"><Trans k="common.actions" /></TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -66,7 +73,7 @@ export default async function AdminUsersPage() {
                                     )}
                                     {admin.id === session.user.id && (
                                         <span className="text-sm text-muted-foreground italic">
-                                            (Siz)
+                                            <Trans k="users.you" />
                                         </span>
                                     )}
                                 </TableCell>

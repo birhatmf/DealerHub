@@ -15,6 +15,8 @@ import Link from "next/link"
 import { StoreFilter } from "@/components/store-filter"
 import { OrderActions } from "@/components/order-actions"
 
+import { Trans } from "@/components/ui/trans"
+
 export default async function AdminOrdersPage({
     searchParams,
 }: {
@@ -72,10 +74,14 @@ export default async function AdminOrdersPage({
         select: { id: true, fullName: true, storeId: true },
     })
 
+    // ... (imports)
+
+    // ... (inside component)
+
     return (
         <div className="space-y-6">
             <div className="flex items-center justify-between">
-                <h1 className="text-3xl font-bold">Tüm Siparişler</h1>
+                <h1 className="text-3xl font-bold"><Trans k="orders.title" /></h1>
                 <StoreFilter stores={stores} />
             </div>
 
@@ -83,18 +89,19 @@ export default async function AdminOrdersPage({
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHead>Sipariş No</TableHead>
-                            <TableHead>Mağaza</TableHead>
-                            <TableHead>Müşteri</TableHead>
-                            <TableHead>Tutar</TableHead>
-                            <TableHead>Durum</TableHead>
-                            <TableHead>Tarih</TableHead>
-                            <TableHead className="text-right">İşlemler</TableHead>
+                            <TableHead><Trans k="orders.orderNo" /></TableHead>
+                            <TableHead><Trans k="common.store" /></TableHead>
+                            <TableHead><Trans k="orders.customer" /></TableHead>
+                            <TableHead><Trans k="orders.amount" /></TableHead>
+                            <TableHead><Trans k="orders.status" /></TableHead>
+                            <TableHead><Trans k="orders.date" /></TableHead>
+                            <TableHead className="text-right"><Trans k="common.actions" /></TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
                         {orders.map((order: any) => {
                             const serializedOrder = {
+                                // ... (serialization)
                                 ...order,
                                 totalAmount: Number(order.totalAmount),
                                 paidAmount: Number(order.paidAmount),
@@ -113,13 +120,13 @@ export default async function AdminOrdersPage({
                                     <TableCell>{order.store.name}</TableCell>
                                     <TableCell>{order.customer.fullName}</TableCell>
                                     <TableCell>₺{Number(order.totalAmount).toFixed(2)}</TableCell>
-                                    <TableCell>{order.status}</TableCell>
+                                    <TableCell><Trans k={`status.${order.status}`} /></TableCell>
                                     <TableCell>{formatDate(order.createdAt)}</TableCell>
                                     <TableCell className="text-right">
                                         <div className="flex justify-end gap-2">
                                             <Link href={`/admin/orders/${order.id}`}>
                                                 <Button variant="outline" size="sm">
-                                                    İncele
+                                                    <Trans k="orders.view" />
                                                 </Button>
                                             </Link>
                                             <OrderActions
@@ -135,7 +142,7 @@ export default async function AdminOrdersPage({
                         {orders.length === 0 && (
                             <TableRow>
                                 <TableCell colSpan={7} className="text-center">
-                                    Henüz sipariş bulunmuyor.
+                                    <Trans k="orders.noOrders" />
                                 </TableCell>
                             </TableRow>
                         )}

@@ -15,7 +15,12 @@ import {
 } from "@/components/ui/dialog"
 import { Plus } from "lucide-react"
 
+import { useLanguage } from "@/components/language-provider"
+
+// ... (imports)
+
 export function AdminForm() {
+    const { t } = useLanguage()
     const [open, setOpen] = useState(false)
     const [state, dispatch, isPending] = useActionState(createAdminUser, null)
 
@@ -30,26 +35,26 @@ export function AdminForm() {
             <DialogTrigger asChild>
                 <Button>
                     <Plus className="mr-2 h-4 w-4" />
-                    Yeni Yönetici Ekle
+                    {t("users.addAdmin")}
                 </Button>
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Yeni Yönetici Ekle</DialogTitle>
+                    <DialogTitle>{t("users.addAdmin")}</DialogTitle>
                     <DialogDescription>
-                        Sisteme tam erişim yetkisine sahip yeni bir yönetici oluşturun.
+                        {t("users.addAdminDesc")}
                     </DialogDescription>
                 </DialogHeader>
                 <form action={dispatch} className="space-y-4">
                     <div className="grid gap-2">
-                        <Label htmlFor="username">Kullanıcı Adı</Label>
+                        <Label htmlFor="username">{t("users.username")}</Label>
                         <Input id="username" name="username" required />
                         {state?.errors?.username && (
                             <p className="text-sm text-red-500">{state.errors.username}</p>
                         )}
                     </div>
                     <div className="grid gap-2">
-                        <Label htmlFor="password">Şifre</Label>
+                        <Label htmlFor="password">{t("users.password")}</Label>
                         <Input id="password" name="password" type="password" required />
                         {state?.errors?.password && (
                             <p className="text-sm text-red-500">{state.errors.password}</p>
@@ -62,7 +67,7 @@ export function AdminForm() {
                     )}
                     <div className="flex justify-end">
                         <Button type="submit" disabled={isPending}>
-                            {isPending ? "Oluşturuluyor..." : "Oluştur"}
+                            {isPending ? t("users.creating") : t("common.create")}
                         </Button>
                     </div>
                 </form>

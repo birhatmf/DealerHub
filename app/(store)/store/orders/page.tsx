@@ -14,6 +14,8 @@ import { formatDate } from "@/lib/utils"
 import Link from "next/link"
 import { StatusFilter } from "@/components/status-filter"
 
+import { Trans } from "@/components/ui/trans"
+
 export default async function OrdersPage({
     searchParams,
 }: {
@@ -57,14 +59,19 @@ export default async function OrdersPage({
         select: { id: true, fullName: true },
     })
 
+
+    // ... (imports)
+
+    // ... (inside component)
+
     return (
         <div className="space-y-6">
             <div className="flex items-center justify-between">
-                <h1 className="text-3xl font-bold">Siparişler</h1>
+                <h1 className="text-3xl font-bold"><Trans k="orders.storeTitle" /></h1>
                 <div className="flex gap-4">
                     <StatusFilter />
                     <Link href="/store/orders/create">
-                        <Button>Yeni Sipariş Oluştur</Button>
+                        <Button><Trans k="orders.create" /></Button>
                     </Link>
                 </div>
             </div>
@@ -73,17 +80,18 @@ export default async function OrdersPage({
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHead>Sipariş No</TableHead>
-                            <TableHead>Müşteri</TableHead>
-                            <TableHead>Tutar</TableHead>
-                            <TableHead>Durum</TableHead>
-                            <TableHead>Tarih</TableHead>
-                            <TableHead className="text-right">İşlemler</TableHead>
+                            <TableHead><Trans k="orders.orderNo" /></TableHead>
+                            <TableHead><Trans k="orders.customer" /></TableHead>
+                            <TableHead><Trans k="orders.amount" /></TableHead>
+                            <TableHead><Trans k="orders.status" /></TableHead>
+                            <TableHead><Trans k="orders.date" /></TableHead>
+                            <TableHead className="text-right"><Trans k="common.actions" /></TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
                         {orders.map((order) => {
                             const serializedOrder = {
+                                // ... (serialization)
                                 ...order,
                                 totalAmount: Number(order.totalAmount),
                                 paidAmount: Number(order.paidAmount),
@@ -101,13 +109,13 @@ export default async function OrdersPage({
                                     <TableCell className="font-medium">#{order.id.slice(-6)}</TableCell>
                                     <TableCell>{order.customer.fullName}</TableCell>
                                     <TableCell>₺{Number(order.totalAmount).toFixed(2)}</TableCell>
-                                    <TableCell>{order.status}</TableCell>
+                                    <TableCell><Trans k={`status.${order.status}`} /></TableCell>
                                     <TableCell>{formatDate(order.createdAt)}</TableCell>
                                     <TableCell className="text-right">
                                         <div className="flex justify-end gap-2">
                                             <Link href={`/store/orders/${order.id}`}>
                                                 <Button variant="outline" size="sm">
-                                                    Detay/Yazdır
+                                                    <Trans k="orders.detailPrint" />
                                                 </Button>
                                             </Link>
                                             <OrderActions
@@ -123,7 +131,7 @@ export default async function OrdersPage({
                         {orders.length === 0 && (
                             <TableRow>
                                 <TableCell colSpan={6} className="text-center">
-                                    Henüz sipariş oluşturulmamış.
+                                    <Trans k="orders.noOrders" />
                                 </TableCell>
                             </TableRow>
                         )}

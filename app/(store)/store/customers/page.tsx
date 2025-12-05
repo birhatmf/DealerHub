@@ -11,6 +11,8 @@ import {
 import { prisma } from "@/lib/prisma"
 import { auth } from "@/auth"
 
+import { Trans } from "@/components/ui/trans"
+
 export default async function CustomersPage() {
     const session = await auth()
     if (!session?.user?.id) return null
@@ -26,10 +28,15 @@ export default async function CustomersPage() {
         orderBy: { createdAt: "desc" },
     })
 
+
+    // ... (imports)
+
+    // ... (inside component)
+
     return (
         <div className="space-y-6">
             <div className="flex items-center justify-between">
-                <h1 className="text-3xl font-bold">Müşteriler</h1>
+                <h1 className="text-3xl font-bold"><Trans k="customers.storeTitle" /></h1>
                 <CustomerForm />
             </div>
 
@@ -37,11 +44,14 @@ export default async function CustomersPage() {
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHead>Ad Soyad</TableHead>
-                            <TableHead>Telefon</TableHead>
-                            <TableHead>Email</TableHead>
-                            <TableHead>Firma Adı</TableHead>
-                            <TableHead className="text-right">İşlemler</TableHead>
+                            <TableHead><Trans k="customers.fullName" /></TableHead>
+                            <TableHead><Trans k="customers.phone" /></TableHead>
+                            <TableHead><Trans k="customers.email" /></TableHead>
+                            <TableHead><Trans k="customers.companyName" /></TableHead>
+                            <TableHead><Trans k="customers.tc" /></TableHead>
+                            <TableHead><Trans k="customers.taxNo" /></TableHead>
+                            <TableHead><Trans k="customers.taxOffice" /></TableHead>
+                            <TableHead className="text-right"><Trans k="common.actions" /></TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -59,7 +69,7 @@ export default async function CustomersPage() {
                         {customers.length === 0 && (
                             <TableRow>
                                 <TableCell colSpan={5} className="text-center">
-                                    Henüz müşteri eklenmemiş.
+                                    <Trans k="customers.noCustomers" />
                                 </TableCell>
                             </TableRow>
                         )}

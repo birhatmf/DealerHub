@@ -3,6 +3,8 @@ import { prisma } from "@/lib/prisma"
 import { auth } from "@/auth"
 import { Progress } from "@/components/ui/progress"
 
+import { Trans } from "@/components/ui/trans"
+
 export default async function StoreDashboard() {
     const session = await auth()
     if (!session?.user?.id) return null
@@ -42,22 +44,27 @@ export default async function StoreDashboard() {
         return acc
     }, {} as Record<string, number>)
 
+
+    // ... (imports)
+
+    // ... (inside component)
+
     const statusLabels: Record<string, string> = {
-        "SIPARIS_ALINDI": "Sipariş Alındı",
-        "TEKLIF_HALINDE": "Teklif Halinde",
-        "HAZIRLANIYOR": "Hazırlanıyor",
-        "KARGODA": "Kargoda",
-        "TESLIM_EDILDI": "Teslim Edildi"
+        "SIPARIS_ALINDI": "status.SIPARIS_ALINDI",
+        "TEKLIF_HALINDE": "status.TEKLIF_HALINDE",
+        "HAZIRLANIYOR": "status.HAZIRLANIYOR",
+        "KARGODA": "status.KARGODA",
+        "TESLIM_EDILDI": "status.TESLIM_EDILDI"
     }
 
     return (
         <div className="space-y-6">
-            <h1 className="text-3xl font-bold">Hoşgeldiniz, {store.name}</h1>
+            <h1 className="text-3xl font-bold"><Trans k="common.welcome" />, {store.name}</h1>
 
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Toplam Satış</CardTitle>
+                        <CardTitle className="text-sm font-medium"><Trans k="dashboard.totalSales" /></CardTitle>
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">₺{totalSales.toFixed(2)}</div>
@@ -65,7 +72,7 @@ export default async function StoreDashboard() {
                 </Card>
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Toplam Tahsilat</CardTitle>
+                        <CardTitle className="text-sm font-medium"><Trans k="dashboard.totalPaid" /></CardTitle>
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold text-green-600">₺{totalPaid.toFixed(2)}</div>
@@ -73,7 +80,7 @@ export default async function StoreDashboard() {
                 </Card>
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Bekleyen Ödeme</CardTitle>
+                        <CardTitle className="text-sm font-medium"><Trans k="dashboard.pendingPayment" /></CardTitle>
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold text-red-600">₺{totalPending.toFixed(2)}</div>
@@ -81,7 +88,7 @@ export default async function StoreDashboard() {
                 </Card>
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Sipariş Sayısı</CardTitle>
+                        <CardTitle className="text-sm font-medium"><Trans k="dashboard.orderCount" /></CardTitle>
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">{orderCount}</div>
@@ -92,17 +99,17 @@ export default async function StoreDashboard() {
             <div className="grid gap-4 md:grid-cols-2">
                 <Card>
                     <CardHeader>
-                        <CardTitle>Sipariş Durumları</CardTitle>
+                        <CardTitle><Trans k="dashboard.orderStatus" /></CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
-                        {Object.entries(statusLabels).map(([key, label]) => {
+                        {Object.entries(statusLabels).map(([key, labelKey]) => {
                             const count = statusCounts[key] || 0
                             const percentage = orderCount > 0 ? (count / orderCount) * 100 : 0
 
                             return (
                                 <div key={key} className="space-y-2">
                                     <div className="flex items-center justify-between text-sm">
-                                        <span className="font-medium">{label}</span>
+                                        <span className="font-medium"><Trans k={labelKey} /></span>
                                         <span className="text-muted-foreground">{count} adet</span>
                                     </div>
                                     <Progress value={percentage} className="h-2" />
@@ -114,15 +121,15 @@ export default async function StoreDashboard() {
 
                 <Card>
                     <CardHeader>
-                        <CardTitle>Hızlı İstatistikler</CardTitle>
+                        <CardTitle><Trans k="dashboard.quickStats" /></CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
                         <div className="flex items-center justify-between">
-                            <span className="text-sm font-medium">Toplam Ürün Çeşidi</span>
+                            <span className="text-sm font-medium"><Trans k="dashboard.totalProductTypes" /></span>
                             <span className="text-xl font-bold">{productCount}</span>
                         </div>
                         <div className="flex items-center justify-between">
-                            <span className="text-sm font-medium">Tahsilat Oranı</span>
+                            <span className="text-sm font-medium"><Trans k="dashboard.paymentRatio" /></span>
                             <span className="text-xl font-bold">
                                 {totalSales > 0 ? ((totalPaid / totalSales) * 100).toFixed(1) : 0}%
                             </span>

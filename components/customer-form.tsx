@@ -22,7 +22,12 @@ interface CustomerFormProps {
     setOpen?: (open: boolean) => void
 }
 
+import { useLanguage } from "@/components/language-provider"
+
+// ... (imports)
+
 export function CustomerForm({ customer, open: controlledOpen, setOpen: setControlledOpen }: CustomerFormProps) {
+    const { t } = useLanguage()
     const [open, setOpen] = useState(false)
     const isControlled = controlledOpen !== undefined && setControlledOpen !== undefined
     const isOpen = isControlled ? controlledOpen : open
@@ -44,22 +49,22 @@ export function CustomerForm({ customer, open: controlledOpen, setOpen: setContr
         <Dialog open={isOpen} onOpenChange={onOpenChange}>
             {!isControlled && (
                 <DialogTrigger asChild>
-                    <Button>Yeni Müşteri Ekle</Button>
+                    <Button>{t("customers.addNew")}</Button>
                 </DialogTrigger>
             )}
             <DialogContent className="sm:max-w-[600px]">
                 <DialogHeader>
-                    <DialogTitle>{customer ? "Müşteriyi Düzenle" : "Müşteri Ekle"}</DialogTitle>
+                    <DialogTitle>{customer ? t("customers.edit") : t("customers.add")}</DialogTitle>
                     <DialogDescription>
                         {customer
-                            ? "Müşteri bilgilerini güncelleyin."
-                            : "Yeni bir müşteri kaydı oluşturun."}
+                            ? t("customers.updateDesc")
+                            : t("customers.createDesc")}
                     </DialogDescription>
                 </DialogHeader>
                 <form action={dispatch} className="grid gap-4 py-4">
                     <div className="grid grid-cols-2 gap-4">
                         <div className="grid gap-2">
-                            <Label htmlFor="fullName">Ad Soyad</Label>
+                            <Label htmlFor="fullName">{t("customers.fullName")}</Label>
                             <Input
                                 id="fullName"
                                 name="fullName"
@@ -71,7 +76,7 @@ export function CustomerForm({ customer, open: controlledOpen, setOpen: setContr
                             )}
                         </div>
                         <div className="grid gap-2">
-                            <Label htmlFor="tc">TC Kimlik No</Label>
+                            <Label htmlFor="tc">{t("customers.tc")}</Label>
                             <Input
                                 id="tc"
                                 name="tc"
@@ -82,7 +87,7 @@ export function CustomerForm({ customer, open: controlledOpen, setOpen: setContr
 
                     <div className="grid grid-cols-2 gap-4">
                         <div className="grid gap-2">
-                            <Label htmlFor="email">Email</Label>
+                            <Label htmlFor="email">{t("customers.email")}</Label>
                             <Input
                                 id="email"
                                 name="email"
@@ -94,7 +99,7 @@ export function CustomerForm({ customer, open: controlledOpen, setOpen: setContr
                             )}
                         </div>
                         <div className="grid gap-2">
-                            <Label htmlFor="phone">Telefon</Label>
+                            <Label htmlFor="phone">{t("customers.phone")}</Label>
                             <Input
                                 id="phone"
                                 name="phone"
@@ -104,7 +109,7 @@ export function CustomerForm({ customer, open: controlledOpen, setOpen: setContr
                     </div>
 
                     <div className="grid gap-2">
-                        <Label htmlFor="address">Adres</Label>
+                        <Label htmlFor="address">{t("customers.cityAddress")}</Label>
                         <Textarea
                             id="address"
                             name="address"
@@ -114,7 +119,7 @@ export function CustomerForm({ customer, open: controlledOpen, setOpen: setContr
 
                     <div className="grid grid-cols-3 gap-4">
                         <div className="grid gap-2">
-                            <Label htmlFor="companyName">Firma Adı</Label>
+                            <Label htmlFor="companyName">{t("customers.companyName")}</Label>
                             <Input
                                 id="companyName"
                                 name="companyName"
@@ -122,7 +127,7 @@ export function CustomerForm({ customer, open: controlledOpen, setOpen: setContr
                             />
                         </div>
                         <div className="grid gap-2">
-                            <Label htmlFor="taxNo">Vergi No</Label>
+                            <Label htmlFor="taxNo">{t("customers.taxNo")}</Label>
                             <Input
                                 id="taxNo"
                                 name="taxNo"
@@ -130,7 +135,7 @@ export function CustomerForm({ customer, open: controlledOpen, setOpen: setContr
                             />
                         </div>
                         <div className="grid gap-2">
-                            <Label htmlFor="taxOffice">Vergi Dairesi</Label>
+                            <Label htmlFor="taxOffice">{t("customers.taxOffice")}</Label>
                             <Input
                                 id="taxOffice"
                                 name="taxOffice"
@@ -144,7 +149,7 @@ export function CustomerForm({ customer, open: controlledOpen, setOpen: setContr
                     )}
                     <DialogFooter>
                         <Button type="submit" disabled={isPending}>
-                            {isPending ? "Kaydediliyor..." : "Kaydet"}
+                            {isPending ? t("common.saving") : t("common.save")}
                         </Button>
                     </DialogFooter>
                 </form>

@@ -22,7 +22,12 @@ interface ProductFormProps {
     setOpen?: (open: boolean) => void
 }
 
+import { useLanguage } from "@/components/language-provider"
+
+// ... (imports)
+
 export function ProductForm({ product, open: controlledOpen, setOpen: setControlledOpen }: ProductFormProps) {
+    const { t } = useLanguage()
     const [open, setOpen] = useState(false)
     const isControlled = controlledOpen !== undefined && setControlledOpen !== undefined
     const isOpen = isControlled ? controlledOpen : open
@@ -44,22 +49,22 @@ export function ProductForm({ product, open: controlledOpen, setOpen: setControl
         <Dialog open={isOpen} onOpenChange={onOpenChange}>
             {!isControlled && (
                 <DialogTrigger asChild>
-                    <Button>Yeni Ürün Ekle</Button>
+                    <Button>{t("products.addNew")}</Button>
                 </DialogTrigger>
             )}
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle>{product ? "Ürünü Düzenle" : "Ürün Ekle"}</DialogTitle>
+                    <DialogTitle>{product ? t("products.editTitle") : t("products.addTitle")}</DialogTitle>
                     <DialogDescription>
                         {product
-                            ? "Ürün bilgilerini güncelleyin."
-                            : "Mağazanıza yeni bir ürün ekleyin."}
+                            ? t("products.editDesc")
+                            : t("products.addDesc")}
                     </DialogDescription>
                 </DialogHeader>
                 <form action={dispatch} className="grid gap-4 py-4">
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="name" className="text-right">
-                            Ürün Adı
+                            {t("products.productName")}
                         </Label>
                         <Input
                             id="name"
@@ -75,7 +80,7 @@ export function ProductForm({ product, open: controlledOpen, setOpen: setControl
 
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="description" className="text-right">
-                            Açıklama
+                            {t("common.description")}
                         </Label>
                         <Textarea
                             id="description"
@@ -87,7 +92,7 @@ export function ProductForm({ product, open: controlledOpen, setOpen: setControl
 
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="price" className="text-right">
-                            Fiyat (₺)
+                            {t("common.price")} (₺)
                         </Label>
                         <Input
                             id="price"
@@ -105,7 +110,7 @@ export function ProductForm({ product, open: controlledOpen, setOpen: setControl
 
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="stock" className="text-right">
-                            Stok
+                            {t("common.stock")}
                         </Label>
                         <Input
                             id="stock"
@@ -122,7 +127,7 @@ export function ProductForm({ product, open: controlledOpen, setOpen: setControl
 
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="image" className="text-right">
-                            Resim
+                            {t("common.image")}
                         </Label>
                         <Input id="image" name="image" type="file" accept="image/*" className="col-span-3" />
                     </div>
@@ -132,7 +137,7 @@ export function ProductForm({ product, open: controlledOpen, setOpen: setControl
                     )}
                     <DialogFooter>
                         <Button type="submit" disabled={isPending}>
-                            {isPending ? "Kaydediliyor..." : "Kaydet"}
+                            {isPending ? t("common.saving") : t("common.save")}
                         </Button>
                     </DialogFooter>
                 </form>

@@ -13,6 +13,8 @@ import Image from "next/image"
 import { StoreFilter } from "@/components/store-filter"
 import { ProductActions } from "@/components/product-actions"
 
+import { Trans } from "@/components/ui/trans"
+
 export default async function AdminProductsPage({
     searchParams,
 }: {
@@ -42,10 +44,14 @@ export default async function AdminProductsPage({
         orderBy: { name: "asc" },
     })
 
+    // ... (imports)
+
+    // ... (inside component)
+
     return (
         <div className="space-y-6">
             <div className="flex items-center justify-between">
-                <h1 className="text-3xl font-bold">Tüm Ürünler</h1>
+                <h1 className="text-3xl font-bold"><Trans k="products.title" /></h1>
                 <StoreFilter stores={stores} />
             </div>
 
@@ -53,12 +59,12 @@ export default async function AdminProductsPage({
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHead className="w-[100px]">Resim</TableHead>
-                            <TableHead>Ürün Adı</TableHead>
-                            <TableHead>Mağaza</TableHead>
-                            <TableHead>Fiyat</TableHead>
-                            <TableHead>Stok</TableHead>
-                            <TableHead className="text-right">İşlemler</TableHead>
+                            <TableHead className="w-[100px]"><Trans k="common.image" /></TableHead>
+                            <TableHead><Trans k="products.productName" /></TableHead>
+                            <TableHead><Trans k="common.store" /></TableHead>
+                            <TableHead><Trans k="common.price" /></TableHead>
+                            <TableHead><Trans k="common.stock" /></TableHead>
+                            <TableHead className="text-right"><Trans k="common.actions" /></TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -95,8 +101,8 @@ export default async function AdminProductsPage({
                         })}
                         {products.length === 0 && (
                             <TableRow>
-                                <TableCell colSpan={5} className="text-center">
-                                    Henüz ürün bulunmuyor.
+                                <TableCell colSpan={6} className="text-center">
+                                    <Trans k="products.noProducts" />
                                 </TableCell>
                             </TableRow>
                         )}

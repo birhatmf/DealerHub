@@ -36,7 +36,12 @@ interface OrderFormProps {
     onSuccess?: () => void
 }
 
+import { useLanguage } from "@/components/language-provider"
+
+// ... (imports)
+
 export function OrderForm({ products, customers, order, onSuccess }: OrderFormProps) {
+    const { t } = useLanguage()
     const updateAction = updateOrder.bind(null, order?.id)
     const [state, dispatch, isPending] = useActionState(
         order ? updateAction : createOrder,
@@ -48,7 +53,7 @@ export function OrderForm({ products, customers, order, onSuccess }: OrderFormPr
             productId: item.productId,
             quantity: item.quantity,
             price: Number(item.price),
-            name: item.product?.name || "Bilinmeyen Ürün", // Handle potentially missing product name if not included
+            name: item.product?.name || t("orders.unknownProduct"),
         })) || []
     )
     const [selectedProduct, setSelectedProduct] = useState<string>("")
@@ -102,14 +107,14 @@ export function OrderForm({ products, customers, order, onSuccess }: OrderFormPr
             <div className="grid gap-8 md:grid-cols-2">
                 <Card>
                     <CardHeader>
-                        <CardTitle>Müşteri ve Detaylar</CardTitle>
+                        <CardTitle>{t("orders.customerDetails")}</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-6">
                         <div className="grid gap-4">
-                            <Label htmlFor="customerId">Müşteri Seçin</Label>
+                            <Label htmlFor="customerId">{t("orders.selectCustomer")}</Label>
                             <Select name="customerId" defaultValue={order?.customerId} required>
                                 <SelectTrigger>
-                                    <SelectValue placeholder="Müşteri seçin" />
+                                    <SelectValue placeholder={t("orders.selectCustomerPlaceholder")} />
                                 </SelectTrigger>
                                 <SelectContent>
                                     {customers.map((customer) => (
@@ -125,17 +130,17 @@ export function OrderForm({ products, customers, order, onSuccess }: OrderFormPr
                         </div>
 
                         <div className="grid gap-4">
-                            <Label htmlFor="paymentMethod">Ödeme Yöntemi</Label>
+                            <Label htmlFor="paymentMethod">{t("orders.paymentMethod")}</Label>
                             <Input
                                 id="paymentMethod"
                                 name="paymentMethod"
-                                placeholder="Nakit, Havale, Kredi Kartı vb."
+                                placeholder={t("orders.paymentMethodPlaceholder")}
                                 defaultValue={order?.paymentMethod || ""}
                             />
                         </div>
 
                         <div className="grid gap-4">
-                            <Label htmlFor="paidAmount">Alınan Ödeme (₺)</Label>
+                            <Label htmlFor="paidAmount">{t("orders.receivedPayment")}</Label>
                             <Input
                                 id="paidAmount"
                                 name="paidAmount"
@@ -146,7 +151,7 @@ export function OrderForm({ products, customers, order, onSuccess }: OrderFormPr
                         </div>
 
                         <div className="grid gap-4">
-                            <Label htmlFor="notes">Özel Açıklama / Notlar</Label>
+                            <Label htmlFor="notes">{t("orders.notes")}</Label>
                             <Textarea
                                 id="notes"
                                 name="notes"
@@ -155,17 +160,17 @@ export function OrderForm({ products, customers, order, onSuccess }: OrderFormPr
                         </div>
 
                         <div className="grid gap-4">
-                            <Label htmlFor="status">Durum</Label>
+                            <Label htmlFor="status">{t("orders.status")}</Label>
                             <Select name="status" defaultValue={order?.status || "SIPARIS_ALINDI"}>
                                 <SelectTrigger>
-                                    <SelectValue placeholder="Durum seçin" />
+                                    <SelectValue placeholder={t("orders.selectStatus")} />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="SIPARIS_ALINDI">Sipariş Alındı</SelectItem>
-                                    <SelectItem value="TEKLIF_HALINDE">Teklif Halinde</SelectItem>
-                                    <SelectItem value="HAZIRLANIYOR">Hazırlanıyor</SelectItem>
-                                    <SelectItem value="KARGODA">Kargoda</SelectItem>
-                                    <SelectItem value="TESLIM_EDILDI">Teslim Edildi</SelectItem>
+                                    <SelectItem value="SIPARIS_ALINDI">{t("status.SIPARIS_ALINDI")}</SelectItem>
+                                    <SelectItem value="TEKLIF_HALINDE">{t("status.TEKLIF_HALINDE")}</SelectItem>
+                                    <SelectItem value="HAZIRLANIYOR">{t("status.HAZIRLANIYOR")}</SelectItem>
+                                    <SelectItem value="KARGODA">{t("status.KARGODA")}</SelectItem>
+                                    <SelectItem value="TESLIM_EDILDI">{t("status.TESLIM_EDILDI")}</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
@@ -174,19 +179,19 @@ export function OrderForm({ products, customers, order, onSuccess }: OrderFormPr
 
                 <Card>
                     <CardHeader>
-                        <CardTitle>Ürün Sepeti</CardTitle>
+                        <CardTitle>{t("orders.cart")}</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-6">
                         <div className="flex gap-2">
                             <div className="flex-1">
                                 <Select value={selectedProduct} onValueChange={setSelectedProduct}>
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Ürün seçin" />
+                                        <SelectValue placeholder={t("orders.selectProduct")} />
                                     </SelectTrigger>
                                     <SelectContent>
                                         {products.map((product) => (
                                             <SelectItem key={product.id} value={product.id}>
-                                                {product.name} (Stok: {product.stock}) - ₺{Number(product.price).toFixed(2)}
+                                                {product.name} ({t("orders.stock")} {product.stock}) - ₺{Number(product.price).toFixed(2)}
                                             </SelectItem>
                                         ))}
                                     </SelectContent>
@@ -200,7 +205,7 @@ export function OrderForm({ products, customers, order, onSuccess }: OrderFormPr
                                 min="1"
                             />
                             <Button type="button" onClick={handleAddToCart}>
-                                Ekle
+                                {t("orders.add")}
                             </Button>
                         </div>
 
@@ -208,10 +213,10 @@ export function OrderForm({ products, customers, order, onSuccess }: OrderFormPr
                             <Table>
                                 <TableHeader>
                                     <TableRow>
-                                        <TableHead>Ürün</TableHead>
-                                        <TableHead>Adet</TableHead>
-                                        <TableHead>Fiyat</TableHead>
-                                        <TableHead>Toplam</TableHead>
+                                        <TableHead>{t("orders.product")}</TableHead>
+                                        <TableHead>{t("orders.quantity")}</TableHead>
+                                        <TableHead>{t("orders.price")}</TableHead>
+                                        <TableHead>{t("orders.total")}</TableHead>
                                         <TableHead></TableHead>
                                     </TableRow>
                                 </TableHeader>
@@ -230,7 +235,7 @@ export function OrderForm({ products, customers, order, onSuccess }: OrderFormPr
                                                     onClick={() => handleRemoveFromCart(item.productId)}
                                                     className="text-red-500"
                                                 >
-                                                    Sil
+                                                    {t("orders.delete")}
                                                 </Button>
                                             </TableCell>
                                         </TableRow>
@@ -238,7 +243,7 @@ export function OrderForm({ products, customers, order, onSuccess }: OrderFormPr
                                     {cart.length === 0 && (
                                         <TableRow>
                                             <TableCell colSpan={5} className="text-center text-muted-foreground">
-                                                Sepet boş.
+                                                {t("orders.emptyCart")}
                                             </TableCell>
                                         </TableRow>
                                     )}
@@ -247,7 +252,7 @@ export function OrderForm({ products, customers, order, onSuccess }: OrderFormPr
                         </div>
 
                         <div className="flex items-center justify-between pt-4">
-                            <span className="text-lg font-bold">Toplam Tutar:</span>
+                            <span className="text-lg font-bold">{t("orders.totalAmount")}</span>
                             <span className="text-2xl font-bold">₺{totalAmount.toFixed(2)}</span>
                         </div>
 
@@ -263,7 +268,7 @@ export function OrderForm({ products, customers, order, onSuccess }: OrderFormPr
 
             <div className="flex justify-end">
                 <Button type="submit" size="lg" disabled={isPending || cart.length === 0}>
-                    {isPending ? "Kaydediliyor..." : (order ? "Siparişi Güncelle" : "Siparişi Oluştur")}
+                    {isPending ? t("common.saving") : (order ? t("orders.updateOrder") : t("orders.createOrder"))}
                 </Button>
             </div>
         </form>

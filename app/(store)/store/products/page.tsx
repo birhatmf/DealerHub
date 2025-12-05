@@ -1,3 +1,4 @@
+import { Trans } from "@/components/ui/trans"
 import { ProductForm } from "@/components/product-form"
 import { ProductActions } from "@/components/product-actions"
 import {
@@ -20,7 +21,11 @@ export default async function ProductsPage() {
         where: { userId: session.user.id },
     })
 
-    if (!store) return <div>Mağaza bulunamadı.</div>
+    // ... (imports)
+
+    // ... (inside component)
+
+    if (!store) return <div><Trans k="common.noData" /></div>
 
     const products = await prisma.product.findMany({
         where: { storeId: store.id },
@@ -30,7 +35,7 @@ export default async function ProductsPage() {
     return (
         <div className="space-y-6">
             <div className="flex items-center justify-between">
-                <h1 className="text-3xl font-bold">Ürünler</h1>
+                <h1 className="text-3xl font-bold"><Trans k="products.title" /></h1>
                 <ProductForm />
             </div>
 
@@ -38,11 +43,11 @@ export default async function ProductsPage() {
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHead className="w-[100px]">Resim</TableHead>
-                            <TableHead>Ürün Adı</TableHead>
-                            <TableHead>Fiyat</TableHead>
-                            <TableHead>Stok</TableHead>
-                            <TableHead className="text-right">İşlemler</TableHead>
+                            <TableHead className="w-[100px]"><Trans k="common.image" /></TableHead>
+                            <TableHead><Trans k="products.productName" /></TableHead>
+                            <TableHead><Trans k="common.price" /></TableHead>
+                            <TableHead><Trans k="common.stock" /></TableHead>
+                            <TableHead className="text-right"><Trans k="common.actions" /></TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -79,7 +84,7 @@ export default async function ProductsPage() {
                         {products.length === 0 && (
                             <TableRow>
                                 <TableCell colSpan={5} className="text-center">
-                                    Henüz ürün eklenmemiş.
+                                    <Trans k="products.noProducts" />
                                 </TableCell>
                             </TableRow>
                         )}

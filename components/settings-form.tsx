@@ -15,27 +15,32 @@ interface SettingsFormProps {
     }
 }
 
+import { useLanguage } from "@/components/language-provider"
+
+// ... (imports)
+
 export function SettingsForm({ store }: SettingsFormProps) {
+    const { t } = useLanguage()
     const [state, dispatch, isPending] = useActionState(updateStoreSettings, null)
 
     return (
         <form action={dispatch} className="space-y-6">
             <Card>
                 <CardHeader>
-                    <CardTitle>Satış Sözleşmesi</CardTitle>
+                    <CardTitle>{t("settings.contractTitle")}</CardTitle>
                     <CardDescription>
-                        Sipariş detaylarında ve çıktılarında görünecek satış sözleşmesi metni.
+                        {t("settings.contractDesc")}
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
                     <div className="grid gap-2">
-                        <Label htmlFor="contractText">Sözleşme Metni</Label>
+                        <Label htmlFor="contractText">{t("settings.contractLabel")}</Label>
                         <Textarea
                             id="contractText"
                             name="contractText"
                             defaultValue={store.contractText || ""}
                             className="min-h-[200px]"
-                            placeholder="Sözleşme maddelerini buraya giriniz..."
+                            placeholder={t("settings.contractPlaceholder")}
                         />
                     </div>
                 </CardContent>
@@ -43,20 +48,20 @@ export function SettingsForm({ store }: SettingsFormProps) {
 
             <Card>
                 <CardHeader>
-                    <CardTitle>Varsayılan Notlar</CardTitle>
+                    <CardTitle>{t("settings.notesTitle")}</CardTitle>
                     <CardDescription>
-                        Sipariş detaylarında görünecek genel notlar ve uyarılar.
+                        {t("settings.notesDesc")}
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
                     <div className="grid gap-2">
-                        <Label htmlFor="noteText">Notlar</Label>
+                        <Label htmlFor="noteText">{t("settings.notesLabel")}</Label>
                         <Textarea
                             id="noteText"
                             name="noteText"
                             defaultValue={store.noteText || ""}
                             className="min-h-[100px]"
-                            placeholder="Genel notlarınızı buraya giriniz..."
+                            placeholder={t("settings.notesPlaceholder")}
                         />
                     </div>
                 </CardContent>
@@ -64,20 +69,20 @@ export function SettingsForm({ store }: SettingsFormProps) {
 
             <Card>
                 <CardHeader>
-                    <CardTitle>Banka ve Şirket Bilgileri</CardTitle>
+                    <CardTitle>{t("settings.bankTitle")}</CardTitle>
                     <CardDescription>
-                        Sayfanın en altında görünecek banka hesap bilgileri ve şirket ünvanı.
+                        {t("settings.bankDesc")}
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
                     <div className="grid gap-2">
-                        <Label htmlFor="bankInfo">Banka / IBAN Bilgileri</Label>
+                        <Label htmlFor="bankInfo">{t("settings.bankLabel")}</Label>
                         <Textarea
                             id="bankInfo"
                             name="bankInfo"
                             defaultValue={store.bankInfo || ""}
                             className="min-h-[100px]"
-                            placeholder="Banka Adı: ... IBAN: TR..."
+                            placeholder={t("settings.bankPlaceholder")}
                         />
                     </div>
                 </CardContent>
@@ -91,7 +96,7 @@ export function SettingsForm({ store }: SettingsFormProps) {
 
             <div className="flex justify-end">
                 <Button type="submit" disabled={isPending}>
-                    {isPending ? "Kaydediliyor..." : "Ayarları Kaydet"}
+                    {isPending ? t("common.saving") : t("settings.saveSettings")}
                 </Button>
             </div>
         </form>
