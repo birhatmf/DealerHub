@@ -1,0 +1,108 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "darwin-arm64"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  username  String   @unique
+  password  String
+  role      String   @default("STORE") // ROOT, STORE
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  store     Store?
+}
+
+model Store {
+  id          String   @id @default(cuid())
+  name        String
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id])
+  
+  products    Product[]
+  customers   Customer[]
+  orders      Order[]
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  bankInfo     String?
+  contractText String?
+  noteText     String?
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  imageUrl    String?
+  price       Decimal
+  stock       Int      @default(0)
+  
+  storeId     String
+  store       Store    @relation(fields: [storeId], references: [id])
+  
+  orderItems  OrderItem[]
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Customer {
+  id          String   @id @default(cuid())
+  fullName    String
+  tc          String?
+  email       String?
+  phone       String?
+  address     String?
+  companyName String?
+  taxNo       String?
+  taxOffice   String?
+  
+  storeId     String
+  store       Store    @relation(fields: [storeId], references: [id])
+  
+  orders      Order[]
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Order {
+  id          String   @id @default(cuid())
+  totalAmount Decimal
+  status      String   @default("PENDING") // SIPARIS_ALINDI, TEKLIF_HALINDE, HAZIRLANIYOR, KARGODA, TESLIM_EDILDI
+  paymentMethod String?
+  notes       String?
+  
+  paidAmount  Decimal  @default(0)
+  
+  storeId     String
+  store       Store    @relation(fields: [storeId], references: [id])
+  
+  customerId  String
+  customer    Customer @relation(fields: [customerId], references: [id])
+  
+  items       OrderItem[]
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  quantity  Int
+  price     Decimal
+  
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id])
+  
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+}
