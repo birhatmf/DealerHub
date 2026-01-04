@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma"
 import { auth } from "@/auth"
 import { formatDate } from "@/lib/utils"
 import Image from "next/image"
+import Link from "next/link"
 
 export default async function OrderDetailsPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params
@@ -24,7 +25,11 @@ export default async function OrderDetailsPage({ params }: { params: Promise<{ i
             customer: true,
             items: {
                 include: {
-                    product: true,
+                    product: {
+                        include: {
+                            images: true,
+                        },
+                    },
                 },
             },
         },
@@ -76,19 +81,23 @@ export default async function OrderDetailsPage({ params }: { params: Promise<{ i
                             {order.items.map((item: any) => (
                                 <tr key={item.id} className="border-b">
                                     <td className="py-4">
-                                        <div className="font-medium">{item.product.name}</div>
+                                        <Link href={`/store/products/${item.product.id}`} className="hover:underline">
+                                            <div className="font-medium">{item.product.name}</div>
+                                        </Link>
                                         <div className="text-sm text-muted-foreground">{item.product.description}</div>
                                     </td>
                                     <td className="py-4">
-                                        {item.product.imageUrl && (
-                                            <div className="relative h-16 w-16 overflow-hidden rounded-md">
-                                                <Image
-                                                    src={item.product.imageUrl}
-                                                    alt={item.product.name}
-                                                    fill
-                                                    className="object-cover"
-                                                />
-                                            </div>
+                                        {item.product.images[0]?.url && (
+                                            <Link href={`/store/products/${item.product.id}`}>
+                                                <div className="relative h-16 w-16 overflow-hidden rounded-md">
+                                                    <Image
+                                                        src={item.product.images[0].url}
+                                                        alt={item.product.name}
+                                                        fill
+                                                        className="object-cover"
+                                                    />
+                                                </div>
+                                            </Link>
                                         )}
                                     </td>
                                     <td className="py-4 text-right">{item.quantity}</td>

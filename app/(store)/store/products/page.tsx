@@ -12,6 +12,7 @@ import {
 import { prisma } from "@/lib/prisma"
 import { auth } from "@/auth"
 import Image from "next/image"
+import Link from "next/link"
 
 export default async function ProductsPage() {
     const session = await auth()
@@ -30,6 +31,7 @@ export default async function ProductsPage() {
     const products = await prisma.product.findMany({
         where: { storeId: store.id },
         orderBy: { createdAt: "desc" },
+        include: { images: true },
     })
 
     return (
@@ -59,10 +61,10 @@ export default async function ProductsPage() {
                             return (
                                 <TableRow key={product.id}>
                                     <TableCell>
-                                        {product.imageUrl ? (
+                                        {product.images[0]?.url ? (
                                             <div className="relative h-12 w-12 overflow-hidden rounded-md">
                                                 <Image
-                                                    src={product.imageUrl}
+                                                    src={product.images[0].url}
                                                     alt={product.name}
                                                     fill
                                                     className="object-cover"
@@ -72,7 +74,11 @@ export default async function ProductsPage() {
                                             <div className="h-12 w-12 rounded-md bg-muted" />
                                         )}
                                     </TableCell>
-                                    <TableCell className="font-medium">{product.name}</TableCell>
+                                    <TableCell className="font-medium">
+                                        <Link href={`/store/products/${product.id}`} className="hover:underline">
+                                            {product.name}
+                                        </Link>
+                                    </TableCell>
                                     <TableCell>₺{Number(product.price).toFixed(2)}</TableCell>
                                     <TableCell>{product.stock}</TableCell>
                                     <TableCell className="text-right">

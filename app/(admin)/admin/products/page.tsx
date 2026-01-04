@@ -12,6 +12,7 @@ import { redirect } from "next/navigation"
 import Image from "next/image"
 import { StoreFilter } from "@/components/store-filter"
 import { ProductActions } from "@/components/product-actions"
+import Link from "next/link"
 
 import { Trans } from "@/components/ui/trans"
 
@@ -35,6 +36,7 @@ export default async function AdminProductsPage({
         where: whereClause,
         include: {
             store: true,
+            images: true,
         },
         orderBy: { createdAt: "desc" },
     })
@@ -76,10 +78,10 @@ export default async function AdminProductsPage({
                             return (
                                 <TableRow key={product.id}>
                                     <TableCell>
-                                        {product.imageUrl ? (
+                                        {product.images[0]?.url ? (
                                             <div className="relative h-12 w-12 overflow-hidden rounded-md">
                                                 <Image
-                                                    src={product.imageUrl}
+                                                    src={product.images[0].url}
                                                     alt={product.name}
                                                     fill
                                                     className="object-cover"
@@ -89,7 +91,11 @@ export default async function AdminProductsPage({
                                             <div className="h-12 w-12 rounded-md bg-muted" />
                                         )}
                                     </TableCell>
-                                    <TableCell className="font-medium">{product.name}</TableCell>
+                                    <TableCell className="font-medium">
+                                        <Link href={`/admin/products/${product.id}`} className="hover:underline">
+                                            {product.name}
+                                        </Link>
+                                    </TableCell>
                                     <TableCell>{product.store.name}</TableCell>
                                     <TableCell>₺{Number(product.price).toFixed(2)}</TableCell>
                                     <TableCell>{product.stock}</TableCell>

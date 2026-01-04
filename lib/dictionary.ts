@@ -36,6 +36,8 @@ export const dictionary = {
             allStores: "Tüm Mağazalar",
             selectStore: "Mağaza Seçiniz",
             all: "Tümü",
+            back: "Geri",
+            createdAt: "Oluşturulma Tarihi",
         },
         dashboard: {
             title: "Dashboard",
@@ -61,6 +63,12 @@ export const dictionary = {
             addDesc: "Mağazanıza yeni bir ürün ekleyin.",
             productName: "Ürün Adı",
             noProducts: "Henüz ürün bulunmuyor.",
+            productImages: "Ürün Görselleri",
+            productDetails: "Ürün Detayları",
+            inStock: "Stokta",
+            outOfStock: "Stok Yok",
+            productNotFound: "Ürün bulunamadı.",
+            noImages: "Henüz resim bulunmuyor.",
         },
         orders: {
             title: "Tüm Siparişler",
@@ -208,6 +216,8 @@ export const dictionary = {
             allStores: "All Stores",
             selectStore: "Select Store",
             all: "All",
+            back: "Back",
+            createdAt: "Created At",
         },
         dashboard: {
             title: "Dashboard",
@@ -233,6 +243,12 @@ export const dictionary = {
             addDesc: "Add a new product to your store.",
             productName: "Product Name",
             noProducts: "No products found.",
+            productImages: "Product Images",
+            productDetails: "Product Details",
+            inStock: "In Stock",
+            outOfStock: "Out of Stock",
+            productNotFound: "Product not found.",
+            noImages: "No images found.",
         },
         orders: {
             title: "All Orders",

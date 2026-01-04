@@ -126,10 +126,10 @@ export function ProductForm({ product, open: controlledOpen, setOpen: setControl
                     )}
 
                     <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="image" className="text-right">
+                        <Label htmlFor="images" className="text-right">
                             {t("common.image")}
                         </Label>
-                        <Input id="image" name="image" type="file" accept="image/*" className="col-span-3" />
+                        <Input id="images" name="images" type="file" accept="image/*" multiple className="col-span-3" />
                     </div>
 
                     {state?.message && (

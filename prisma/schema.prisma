@@ -38,20 +38,29 @@ model Store {
 }
 
 model Product {
-  id          String   @id @default(cuid())
+  id          String        @id @default(cuid())
   name        String
   description String?
   imageUrl    String?
+  images      ProductImage[]
   price       Decimal
-  stock       Int      @default(0)
-  
+  stock       Int          @default(0)
+
   storeId     String
-  store       Store    @relation(fields: [storeId], references: [id])
-  
+  store       Store         @relation(fields: [storeId], references: [id])
+
   orderItems  OrderItem[]
-  
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model ProductImage {
+  id        String   @id @default(cuid())
+  url       String
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
 }
 
 model Customer {

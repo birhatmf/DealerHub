@@ -7,11 +7,12 @@ export default auth((req) => {
     const user = req.auth?.user
 
     const isApiAuthRoute = nextUrl.pathname.startsWith("/api/auth")
+    const isApiImagesRoute = nextUrl.pathname.startsWith("/api/images")
     const isPublicRoute = nextUrl.pathname === "/login"
     const isAdminRoute = nextUrl.pathname.startsWith("/admin")
     const isStoreRoute = nextUrl.pathname.startsWith("/store")
 
-    if (isApiAuthRoute) {
+    if (isApiAuthRoute || isApiImagesRoute) {
         return null
     }
 

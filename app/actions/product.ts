@@ -43,19 +43,22 @@ export async function createProduct(prevState: any, formData: FormData) {
 
     const { name, description, price, stock } = validatedFields.data
 
-    let imageUrl = ""
-    const imageFile = formData.get("image") as File
-    if (imageFile && imageFile.size > 0) {
-        const buffer = Buffer.from(await imageFile.arrayBuffer())
-        const fileName = `${Date.now()}-${imageFile.name.replace(/\s/g, "-")}`
-        const uploadDir = path.join(process.cwd(), "public/uploads")
+    const imageFiles = formData.getAll("images") as File[]
+    const uploadedImageUrls: string[] = []
+    const uploadDir = path.join(process.cwd(), "public/uploads")
 
-        try {
-            await fs.mkdir(uploadDir, { recursive: true })
-            await fs.writeFile(path.join(uploadDir, fileName), buffer)
-            imageUrl = `/uploads/${fileName}`
-        } catch (error) {
-            console.error("Image upload failed:", error)
+    for (const imageFile of imageFiles) {
+        if (imageFile && imageFile.size > 0) {
+            const buffer = Buffer.from(await imageFile.arrayBuffer())
+            const fileName = `${Date.now()}-${imageFile.name.replace(/\s/g, "-")}`
+
+            try {
+                await fs.mkdir(uploadDir, { recursive: true })
+                await fs.writeFile(path.join(uploadDir, fileName), buffer)
+                uploadedImageUrls.push(`/api/images/${fileName}`)
+            } catch (error) {
+                console.error("Image upload failed:", error)
+            }
         }
     }
 
@@ -66,8 +69,10 @@ export async function createProduct(prevState: any, formData: FormData) {
                 description,
                 price,
                 stock,
-                imageUrl,
                 storeId: store.id,
+                images: {
+                    create: uploadedImageUrls.map(url => ({ url }))
+                }
             },
         })
 
@@ -118,19 +123,22 @@ export async function updateProduct(
 
     const { name, description, price, stock } = validatedFields.data
 
-    let imageUrl = undefined
-    const imageFile = formData.get("image") as File
-    if (imageFile && imageFile.size > 0) {
-        const buffer = Buffer.from(await imageFile.arrayBuffer())
-        const fileName = `${Date.now()}-${imageFile.name.replace(/\s/g, "-")}`
-        const uploadDir = path.join(process.cwd(), "public/uploads")
+    const imageFiles = formData.getAll("images") as File[]
+    const uploadedImageUrls: string[] = []
+    const uploadDir = path.join(process.cwd(), "public/uploads")
 
-        try {
-            await fs.mkdir(uploadDir, { recursive: true })
-            await fs.writeFile(path.join(uploadDir, fileName), buffer)
-            imageUrl = `/uploads/${fileName}`
-        } catch (error) {
-            console.error("Image upload failed:", error)
+    for (const imageFile of imageFiles) {
+        if (imageFile && imageFile.size > 0) {
+            const buffer = Buffer.from(await imageFile.arrayBuffer())
+            const fileName = `${Date.now()}-${imageFile.name.replace(/\s/g, "-")}`
+
+            try {
+                await fs.mkdir(uploadDir, { recursive: true })
+                await fs.writeFile(path.join(uploadDir, fileName), buffer)
+                uploadedImageUrls.push(`/api/images/${fileName}`)
+            } catch (error) {
+                console.error("Image upload failed:", error)
+            }
         }
     }
 
@@ -147,15 +155,25 @@ export async function updateProduct(
             return { message: "Bu ürünü düzenleme yetkiniz yok." }
         }
 
+        const updateData: any = {
+            name,
+            description,
+            price,
+            stock,
+        }
+
+        if (uploadedImageUrls.length > 0) {
+            await prisma.productImage.deleteMany({
+                where: { productId: id }
+            })
+            updateData.images = {
+                create: uploadedImageUrls.map(url => ({ url }))
+            }
+        }
+
         await prisma.product.update({
             where: { id },
-            data: {
-                name,
-                description,
-                price,
-                stock,
-                ...(imageUrl && { imageUrl }),
-            },
+            data: updateData,
         })
 
         revalidatePath("/store/products")
