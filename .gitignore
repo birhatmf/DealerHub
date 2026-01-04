@@ -44,3 +44,14 @@ next-env.d.ts
 
 # sqlite
 *.db
+
+# seed files
+prisma/seed.ts
+prisma/seed.js
+
+# uploaded images
+public/uploads/
+
+# logs
+/logs/
+*.log
